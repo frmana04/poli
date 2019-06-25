@@ -20,7 +20,7 @@ const name = 'Juanitoo';
 const email= 'juan@gmail.com';
 const password = '123456';
 const confirmPassword = '123456';
-let errors = validate.checkAll(name,email,password,confirmPassword);
+let errors = validate.checkAll(name,email,password,{password,confirmPassword});
 console.log(errors)
 
 

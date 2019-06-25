@@ -20,7 +20,7 @@ const operations = {
 
 
 
-    checkConfirmPassword : (password, confirmPassword) =>
+    checkConfirmPassword : ({password, confirmPassword}) =>
 
         password === confirmPassword
 }
@@ -28,8 +28,14 @@ const operations = {
 
 export default {
 
-    checkAll : (userName, email, password,{pass,confirmPassword} ) =>
-
-        Object.values(operations).map ( (operation,index) => operation(arguments[index]))
+    checkAll: function  (userName, email, password,{pass,confirmPassword} ){
+   
+        const argv=arguments; 
+        
+        return Object.values(operations).map ( (operation,index) =>    
+       
+           operation(argv[index])
+        
+        )}
 
 }
