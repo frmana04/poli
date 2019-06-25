@@ -1,15 +1,20 @@
 import express from 'express';
 import { User } from '../models/User';
+import validate from '../helpers/signup-helper'
 
-const router = express.Router();
+const routerUser = express.Router();
 
 
-router.post('/user',(user)=>{
+  
+
+routerUser.post('/user',async (req,res)=>{
+
+    
+    //const { name, email, password} = req.body;
+    
 
 
 })
-
-
 
 const newUser = new User({ name: 'Juan', email: 'juan@gmail.com', password: '123456' });
 console.log(newUser);
@@ -22,4 +27,4 @@ newUser.encryptPassword(newUser.password)
         console.log(err)
     })
 
-export {router};    
+export {routerUser};    

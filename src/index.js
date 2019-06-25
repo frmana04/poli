@@ -1,8 +1,12 @@
 import express from 'express';
-import mongoose from 'mongoose';
-import {router} from './routes/users'
+import {routerUser} from './routes/users';
+import dataBase from './database';
+import validate from './helpers/signup-helper'
+
+console.clear();
 const app = express();
 
+dataBase.connectDB();
 
 app.set ('port', process.env.PORT || 3000);
 
@@ -10,14 +14,13 @@ app.listen(app.get('port'),()=>{
     console.log(`port ${app.get('port')} listening!!`)
 })
 
-app.use(router);
+app.use(routerUser);
 
+const name = 'Juanitoo';
+const email= 'juan@gmail.com';
+const password = '123456';
+const confirmPassword = '123456';
+let errors = validate.checkAll(name,email,password,confirmPassword);
+console.log(errors)
 
-mongoose.connect('mongodb://localhost:27017/test')
-.then (data =>{
-    console.log('connected!');
-})
-.catch(err =>{ 
-    console.log('error conection!',err); 
-});
 
