@@ -3,7 +3,7 @@ import { Schema } from 'mongoose';
 import  bcryptjs  from 'bcryptjs';
 
 const UserSchema = new Schema({
-    name: { type: String, required: true },
+    userName: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
     dateCreation: { type: Date, default: Date.now }
