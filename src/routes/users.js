@@ -13,16 +13,16 @@ routerUser.post('/user', async (req, res) => {
     const password = req.body.password
     const confirmPassword = req.body.confirmPassword
     const errors = validate.checkAll(userName,email,password,{password,confirmPassword});
-    const error=(errors.indexOf(false)!=-1)?false:true
+    const error=(errors.indexOf(false)!=-1)?true:false
+    console.log(errors,error)
     if (error){
         res.send({
             status: false,
-            message: 'Datos erróneos',
+            message: 'Error data',
             data: null
         });
-        return
+        return console.log('Error data');
     }
-   
     const alreadyExist = await User.find().or([{ userName: req.body.userName }, { email: req.body.email }]);
 
     if (alreadyExist.length > 0) {
