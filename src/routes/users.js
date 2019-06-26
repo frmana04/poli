@@ -5,11 +5,24 @@ import validate from '../helpers/signup-helper';
 const routerUser = express.Router();
 
 
-
-
-
 routerUser.post('/user', async (req, res) => {
 
+    
+    const userName = req.body.userName
+    const email= req.body.email
+    const password = req.body.password
+    const confirmPassword = req.body.confirmPassword
+    const errors = validate.checkAll(userName,email,password,{password,confirmPassword});
+    const error=(errors.indexOf(false)!=-1)?false:true
+    if (error){
+        res.send({
+            status: false,
+            message: 'Datos erróneos',
+            data: null
+        });
+        return
+    }
+   
     const alreadyExist = await User.find().or([{ userName: req.body.userName }, { email: req.body.email }]);
 
     if (alreadyExist.length > 0) {
@@ -65,6 +78,29 @@ routerUser.get('/users', async(req,res)=>{
     }     
 })
 
+
+routerUser.get('/users/username/:userName', async (req,res)=>{
+    console.log(req.params.userName)
+
+    const user = await User.findOne({userName:req.params.userName})  
+    if (user){
+        res.send({
+            status: true,
+            message: 'User exist!',
+            data: user
+        });
+    }
+    else {
+        res.send({
+            status: false,
+            message: 'User does not exist!',
+            data: user
+        });
+    }
+ 
+})
+
+
 routerUser.get('/users/:userId', async (req,res)=>{
 
     console.log(req.params.userId)
@@ -79,14 +115,12 @@ routerUser.get('/users/:userId', async (req,res)=>{
     }
     else {
         res.send({
-            status: true,
+            status: false,
             message: 'User does not exist!',
             data: user
         });
     }
     
-
-
 })
 
 export { routerUser };
