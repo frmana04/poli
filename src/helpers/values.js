@@ -2,7 +2,7 @@ export default {
 
     USERNAME_REGEX :/^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/,
     EMAIL_REGEX: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-    PASSWORD_REGEX: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
+    PASSWORD_REGEX: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/
 } 
 
 /*RegEx	Description password

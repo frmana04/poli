@@ -14,7 +14,7 @@ const operations = {
 
     checkPassword : (password) =>
 
-        values.EMAIL_REGEX.test(password),
+        values.PASSWORD_REGEX.test(password),
 
 
     checkConfirmPassword : ({password, confirmPassword}) =>
