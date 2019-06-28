@@ -139,12 +139,13 @@ routerUser.get('/users/:userId', async (req, res) => {
 
 })
 
-const auth = {
+var auth = {
     type: 'oauth2',
     user: 'fjmn2c@gmail.com',
     clientId: '844506636305-b936b5p6gkvrg1ip5kf9m61be35gth90.apps.googleusercontent.com',
     clientSecret: 'hnFxE5solK4KDHk_uuitG8fg',
-    refreshToken: '1/oIGKUEAIQmHt9_UdqoxdSNXsciBzM0o5QXPbCc_Q7y4',
+    refreshToken: '1/_b3yt-NuXq7fIr8CQXXWhKEhkVP4laEtc6flIK6DHcw',
+    accessToken: 'ya29.Gls1B-c_2K-O-7QwjFDO3gHkby4dS4xTYCDAGA6OXdX2jWQ96AuyjhQ0TGxEXFl_QE5SyIMEivujaF4T4VtomjDLb18CyIHLzCLckJrcwrIHpw8K-pxfrnkoUpKA'
 };
 
 routerUser.post('/send', function(req, res){
@@ -160,7 +161,7 @@ routerUser.post('/send', function(req, res){
         to: 'fjmn2c_@hotmail.com',
         subject: 'My site contact from: ' + req.body.name,
         text: req.body.message,
-        html: 'Message from: ' + req.body.name + '<br></br> Email: ' +  req.body.email + '<br></br> Message: ' + req.body.message,
+        html: 'Message from: ' + req.body.name + '<br></br> Email: ' +  req.body.email + '<br></br> Message: ' + req.body.message + '<a href="http://localhost:3000/response">Confirma</a>'
     };
 
   const transporter = nodemailer.createTransport({
@@ -169,14 +170,26 @@ routerUser.post('/send', function(req, res){
     });
 
   transporter.sendMail(mailOptions, (err, res) => {
+      
         if (err) {
             return console.log(err);
         } else {
+
             console.log(JSON.stringify(res));
+            res.send({
+                status: true,
+                message: 'email sended!',
+                data: null
+            })
         }
     });
   })
   
+  routerUser.get('/response', function(req, res){
+
+    console.log("respuesta!!")
+
+  })
 
 export { routerUser };
 
