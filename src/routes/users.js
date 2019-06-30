@@ -1,7 +1,7 @@
 import express from 'express';
 import { User } from '../models/User';
 import validate from '../helpers/signup-helper';
-import nodemailer from 'nodemailer';
+import {sendMail} from '../helpers/node-mailer';
 
 const routerUser = express.Router();
 
@@ -55,6 +55,24 @@ routerUser.post('/user', async (req, res) => {
 
     if (userSaved) {
         console.log('user saved!', userSaved);
+
+    const mailSended = await sendMail({
+           
+                from:'fjmn2c@gmail.com' ,
+                to: userSaved.email,
+                subject:'Email confirmation' ,
+                text: 'Email confirmation',
+                html: '<a href="http://localhost:3000/confirm">Confirm email!</a>'
+         
+        },res=>{
+ if (res) console.log('mail Sended!');
+ else console.log("error mail")
+        })
+        
+
+        
+
+
         res.send({
             status: true,
             message: 'User saved!',
@@ -139,56 +157,16 @@ routerUser.get('/users/:userId', async (req, res) => {
 
 })
 
-var auth = {
-    type: 'oauth2',
-    user: 'fjmn2c@gmail.com',
-    clientId: '844506636305-b936b5p6gkvrg1ip5kf9m61be35gth90.apps.googleusercontent.com',
-    clientSecret: 'hnFxE5solK4KDHk_uuitG8fg',
-    refreshToken: '1/_b3yt-NuXq7fIr8CQXXWhKEhkVP4laEtc6flIK6DHcw',
-    accessToken: 'ya29.Gls1B-c_2K-O-7QwjFDO3gHkby4dS4xTYCDAGA6OXdX2jWQ96AuyjhQ0TGxEXFl_QE5SyIMEivujaF4T4VtomjDLb18CyIHLzCLckJrcwrIHpw8K-pxfrnkoUpKA'
-};
 
-routerUser.post('/send', function(req, res){
-    const response = {
-      name: req.body.name,
-      email: req.body.email,
-      message: req.body.message
-    }
-    
-    
-    const mailOptions = {
-        from: req.body.name,
-        to: 'fjmn2c_@hotmail.com',
-        subject: 'My site contact from: ' + req.body.name,
-        text: req.body.message,
-        html: 'Message from: ' + req.body.name + '<br></br> Email: ' +  req.body.email + '<br></br> Message: ' + req.body.message + '<a href="http://localhost:3000/response">Confirma</a>'
-    };
 
-  const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: auth,
-    });
 
-  transporter.sendMail(mailOptions, (err, res) => {
-      
-        if (err) {
-            return console.log(err);
-        } else {
-
-            console.log(JSON.stringify(res));
-            res.send({
-                status: true,
-                message: 'email sended!',
-                data: null
-            })
-        }
-    });
-  })
-  
   routerUser.get('/response', function(req, res){
 
-    console.log("respuesta!!")
-
+    res.send({
+        status: true,
+        message: 'email confirmed!',
+        data: null
+    })
   })
 
 export { routerUser };

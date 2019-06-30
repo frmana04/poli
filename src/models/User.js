@@ -6,7 +6,8 @@ const UserSchema = new Schema({
     userName: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    dateCreation: { type: Date, default: Date.now }
+    dateCreation: { type: Date, default: Date.now },
+    userActivated: {type:Boolean, default: false}
 
 })
 
