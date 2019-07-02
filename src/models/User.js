@@ -18,8 +18,8 @@ UserSchema.methods.encryptPassword = async (password) => {
     return hash;
 }
 
-UserSchema.methods.matchPassword = async (password) =>{
-
+UserSchema.methods.matchPassword = async function (password) {
+    
     return await bcryptjs.compare(password, this.password);
 }
 

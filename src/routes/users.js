@@ -2,6 +2,8 @@ import express from "express";
 import { User } from "../models/User";
 import validate from "../helpers/signup-helper";
 import { sendMail } from "../helpers/node-mailer";
+import  jwt  from 'jsonwebtoken';
+
 
 const routerUser = express.Router();
 
@@ -52,7 +54,7 @@ routerUser.post("/user", async (req, res) => {
 
         const mailSended = await sendMail(
             {
-                from: "fjmn2c@gmail.com",
+                from: process.env.EMAIL,
                 to: userSaved.email,
                 subject: "Email confirmation",
                 text: "Email confirmation",
@@ -168,5 +170,62 @@ routerUser.get("/confirm/:userId", async (req, res) =>{
     
    
 });
+
+routerUser.get("/delete/:userId", async (req,res) =>{
+
+    const userDeleted = await User.findByIdAndDelete(req.params.userId)
+    console.log(userDeleted)
+    if (userDeleted){
+        res.send({
+            status: true,
+            message: "user deleted!",
+            data: userDeleted,
+        });
+        return console.log('user deleted!')
+    }
+    else {
+        res.send({
+            status: false,
+            message: "Error,user no deleted!",
+            data: null,
+        });
+        return console.log('user no deleted!')
+    }
+
+})
+
+routerUser.post("/login", async (req,res) =>{
+
+   const user = await User.findOne({userName:req.body.userName})
+   if (user) {
+   console.log(user)
+    const match=await user.matchPassword(req.body.password)
+    if (match){
+
+    res.send({
+        status: true,
+        message: "User logged!",
+        data: user
+    });
+}
+else{
+    res.send({
+        status: true,
+        message: "Incorrect password",
+        data: user
+    });
+}
+} 
+else {
+    res.send({
+        status: false,
+        message: "User does not exist!",
+        data: user
+    });
+}
+
+})
+
+
 
 export { routerUser };

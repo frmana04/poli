@@ -4,12 +4,12 @@ export default {
 
   connectDB : async () => {
 
-    const response = await mongoose.connect('mongodb://localhost:27017/poliDB');
+    const response = await mongoose.connect(process.env.DB);
     if (response) {
-        console.log(`connected to mongodb://localhost:27017/poliDB`)
+        console.log(process.env.DB)
     }
     else {
-        console.log(`Error to connect to mongodb://localhost:27017/poliDB`)
+        console.log(process.env.DB)
     }
 
 }
