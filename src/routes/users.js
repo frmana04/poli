@@ -3,7 +3,7 @@ import { User } from "../models/User";
 import validate from "../helpers/signup-helper";
 import { sendMail } from "../helpers/node-mailer";
 import  jwt  from 'jsonwebtoken';
-
+import {verifyToken} from '../middlewares/authentication'
 
 const routerUser = express.Router();
 
@@ -126,7 +126,7 @@ routerUser.get("/users/username/:userName", async (req, res) => {
     }
 });
 
-routerUser.get("/users/:userId", async (req, res) => {
+routerUser.get("/users/:userId",verifyToken, async (req, res) => {
     console.log(req.params.userId);
     const user = await User.findById(req.params.userId);
 
@@ -202,6 +202,10 @@ routerUser.post("/login", async (req,res) =>{
     const match=await user.matchPassword(req.body.password)
     if (match){
 
+    const token = jwt.sign({
+        user
+    },process.env.SECRET_TOKEN,{expiresIn:60*60*24});
+    console.log(token)
     res.send({
         status: true,
         message: "User logged!",
